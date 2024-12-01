@@ -25,7 +25,30 @@ class SS2World(World):
 
     item_name_to_id = {name: data["id"] for name, data in SS2items.items()}
     location_name_to_id = {name: data["id"] for name, data in SS2locations.items()}
-    item_name_groups = {}
+    item_name_groups = {"Shotgun": {"Shotgun"},
+                        "Research": {"Research"},
+                        "Pistol": {},
+                        "Broken Shotgun": {},
+                        "Broken Pistol": {},
+                        "Assault Rifle": {},
+                        "Broken Assault Rifle": {},
+                        "Laser Pistol": {},
+                        "Broken Laser Pistol": {},
+                        "Laser Rapier": {},
+                        "EMP Rifle": {},
+                        "Broken EMP Rifle": {},
+                        "Grenade Launcher": {},
+                        "Broken Grenade Launcher": {},
+                        "Stasis Field Generator": {},
+                        "Broken Stasis Field Generator": {},
+                        "Fusion Cannon": {},
+                        "Broken Fusion Cannon": {},
+                        "Crystal Shard": {},
+                        "Viral Proliferator": {},
+                        "Broken Viral Proliferator": {},
+                        "Annelid Launcher": {},
+                        "Broken Annelid Launcher": {}
+                        }#figure out how to do this non-manually
 
     def add_item_to_group(self, name, group):
         if group in self.item_name_groups:
@@ -33,32 +56,32 @@ class SS2World(World):
         else:
             self.item_name_groups[group] = {name}
 
-    def create_location(self, locname: str) -> SS2location:
+    def create_location(self, locname: str, locregion) -> SS2location:
         locdata = SS2locations[locname]
-        return SS2location(self.player, locname, locdata["id"], locdata["region"])
+        return SS2location(self.player, locname, locdata["id"], locregion)
 
     def has_functional_weapon(self, state):
-        functional_weapon = (((state.hasgroup("Shotgun", self.player) or (state.hasgroup("Broken Shotgun", self.player) and (state.has("Repair Upgrade", self.player, 3) or state.has("Auto-Repair Unit", self.player)))) 
+        functional_weapon = (((state.has_group("Shotgun", self.player) or (state.has_group("Broken Shotgun", self.player) and (state.has("Repair Upgrade", self.player, 3) or state.has("Auto-Repair Unit", self.player)))) 
                                 and state.has("Conventional Weapon Upgrade", self.player, 3)) or
-                                ((state.hasgroup("Pistol", self.player) or (state.hasgroup("Broken Pistol", self.player) and (state.hasgroup("Repair Upgrade", self.player), 1 or state.hasgroup("Auto-Repair Unit", self.player))))
-                                  and state.hasgroup("Conventional Weapon Upgrade", self.player)) or
-                                ((state.hasgroup("Assault Rifle", self.player) or (state.hasgroup("Broken Assault Rifle", self.player) and (state.hasgroup("Repair Upgrade", self.player, 4) or state.hasgroup("Auto-Repair Unit", self.player))))
-                                  and state.hasgroup("Conventional Weapon Upgrade", self.player)) or
-                                ((state.hasgroup("Laser Pistol", self.player) or (state.hasgroup("Broken Laser Pistol", self.player) and (state.has("Repair Upgrade", self.player, 1) or state.has("Auto-Repair Unit", self.player)))) 
+                                ((state.has_group("Pistol", self.player) or (state.has_group("Broken Pistol", self.player) and (state.has("Repair Upgrade", self.player, 1) or state.has("Auto-Repair Unit", self.player))))
+                                  and state.has_group("Conventional Weapon Upgrade", self.player)) or
+                                ((state.has_group("Assault Rifle", self.player) or (state.has_group("Broken Assault Rifle", self.player) and (state.has_group("Repair Upgrade", self.player, 4) or state.has("Auto-Repair Unit", self.player))))
+                                  and state.has_group("Conventional Weapon Upgrade", self.player)) or
+                                ((state.has_group("Laser Pistol", self.player) or (state.has_group("Broken Laser Pistol", self.player) and (state.has("Repair Upgrade", self.player, 1) or state.has("Auto-Repair Unit", self.player)))) 
                                   and state.has("Energy Weapon Upgrade", self.player, 1)) or
-                                (state.hasgroup("Laser Rapier", self.player) and state.has("Energy Weapon Upgrade", self.player, 4) and state.has("Agility Upgrade", self. player, 2)) or
-                                ((state.hasgroup("EMP Rifle", self.player) or (state.hasgroup("Broken EMP Rifle", self.player) and (state.has("Repair Upgrade", self.player, 2) or state.has("Auto-Repair Unit", self.player)))) 
+                                (state.has_group("Laser Rapier", self.player) and state.has("Energy Weapon Upgrade", self.player, 4) and state.has("Agility Upgrade", self. player, 2)) or
+                                ((state.has_group("EMP Rifle", self.player) or (state.has_group("Broken EMP Rifle", self.player) and (state.has("Repair Upgrade", self.player, 2) or state.has("Auto-Repair Unit", self.player)))) 
                                 and state.has("Energy Weapon Upgrade", self.player, 6)) or 
-                                ((state.hasgroup("Grenade Launcher", self.player) or (state.hasgroup("Broken Grenade Launcher", self.player) and (state.has("Repair Upgrade", self.player, 2) or state.has("Auto-Repair Unit", self.player)))) 
+                                ((state.has_group("Grenade Launcher", self.player) or (state.has_group("Broken Grenade Launcher", self.player) and (state.has("Repair Upgrade", self.player, 2) or state.has("Auto-Repair Unit", self.player)))) 
                                 and state.has("Heavy Weapon Upgrade", self.player, 1)) or
-                                ((state.hasgroup("Stasis Field Generator", self.player) or (state.hasgroup("Broken Stasis Field Generator", self.player) and (state.has("Repair Upgrade", self.player, 3) or state.has("Auto-Repair Unit", self.player)))) 
+                                ((state.has_group("Stasis Field Generator", self.player) or (state.has_group("Broken Stasis Field Generator", self.player) and (state.has("Repair Upgrade", self.player, 3) or state.has("Auto-Repair Unit", self.player)))) 
                                 and state.has("Heavy Weapon Upgrade", self.player, 3) and state.has("Strength Upgrade", self.player, 3)) or
-                                ((state.hasgroup("Fusion Cannon", self.player) or (state.hasgroup("Broken Fusion Cannon", self.player) and (state.has("Repair Upgrade", self.player, 4) or state.has("Auto-Repair Unit", self.player)))) 
+                                ((state.has_group("Fusion Cannon", self.player) or (state.has_group("Broken Fusion Cannon", self.player) and (state.has("Repair Upgrade", self.player, 4) or state.has("Auto-Repair Unit", self.player)))) 
                                 and state.has("Heavy Weapon Upgrade", self.player, 6) and state.has("Strength Upgrade", self.player, 4)) or
-                                (state.hasgroup("Crystal Shard", self.player) and state.has("Exotic Weapon Upgrade", self.player, 1) and state.has("Research Upgrade", self. player, 4) and state.has("Yttrium", self.player)) or
-                                ((state.hasgroup("Viral Proliferator", self.player) or (state.hasgroup("Broken Viral Proliferator", self.player) and (state.has("Repair Upgrade", self.player, 4) or state.has("Auto-Repair Unit", self.player)))) 
+                                (state.has_group("Crystal Shard", self.player) and state.has("Exotic Weapon Upgrade", self.player, 1) and state.has("Research Upgrade", self. player, 4) and state.has("Yttrium", self.player)) or
+                                ((state.has_group("Viral Proliferator", self.player) or (state.has_group("Broken Viral Proliferator", self.player) and (state.has("Repair Upgrade", self.player, 4) or state.has("Auto-Repair Unit", self.player)))) 
                                 and state.has("Exotic Weapon Upgrade", self.player, 4) and state.has("Technetium", self.player) and state.has("Tellurium", self.player)) or
-                                ((state.hasgroup("Viral Proliferator", self.player) or (state.hasgroup("Broken Viral Proliferator", self.player) and (state.has("Repair Upgrade", self.player, 5) or state.has("Auto-Repair Unit", self.player)))) 
+                                ((state.has_group("Annelid Launcher", self.player) or (state.has_group("Broken Annelid Launcher", self.player) and (state.has("Repair Upgrade", self.player, 5) or state.has("Auto-Repair Unit", self.player)))) 
                                 and state.has("Exotic Weapon Upgrade", self.player, 6) and state.has("Strength Upgrade", self.player, 3) and state.has("Agility Upgrade", self.player, 3), state.has("Research Upgrade", self.player, 6) and
                                 state.has("Molybdenum", self.player) and state.has("Selenium", self.player)))
         return functional_weapon
@@ -138,8 +161,8 @@ class SS2World(World):
             if data["option"] not in curoptions:
                 continue
 
-            loc = self.create_location(location)
             locregion = self.multiworld.get_region(data["region"], self.player)
+            loc = self.create_location(location, locregion)
             locregion.locations.append(loc)
             for reqitem, amount in data["reqitems"]:
                 add_rule(loc, lambda state, ri = reqitem, a = amount: state.has(ri, self.player, a))
@@ -164,12 +187,13 @@ class SS2World(World):
         rick3_region.add_exits({"many"})
         many_region.add_exits({"shodan"})
 
-        VictoryLoc = SS2location(self.player, "Victory", None)
-        VictoryLoc.place_locked_item(SS2item("Victory", ItemClassification.progression, None, self.player))
         if self.options.many_is_victory:
+            VictoryLoc = SS2location(self.player, "Victory", None, many_region)
             many_region.locations.append(VictoryLoc)
         else:
+            VictoryLoc = SS2location(self.player, "Victory", None, shodan_region)
             shodan_region.locations.append(VictoryLoc)
+        VictoryLoc.place_locked_item(SS2item("Victory", ItemClassification.progression, None, self.player))
         self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
 
         visualize_regions(self.multiworld.get_region("Menu", self.player), "my_world.puml")
@@ -205,11 +229,10 @@ class SS2World(World):
             if data["option"] not in curoptions:
                 continue
             newitem = self.create_item(item)
-            if data["group"]:
-                self.add_item_to_group(item, data["group"])
             amount = data["count"]
             while amount > 0:
                 SS2itempool.append(newitem)
                 amount -= 1
+
+        self.multiworld.itempool += SS2itempool
         
-        self.multiworld.itempool.append(SS2itempool)
