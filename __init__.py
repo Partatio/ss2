@@ -61,29 +61,33 @@ class SS2World(World):
         return SS2location(self.player, locname, locdata["id"], locregion)
 
     def has_functional_weapon(self, state: CollectionState):
-        functional_weapon = (((state.has_group("Shotgun", self.player) or (state.has_group("Broken Shotgun", self.player) and (state.has("Repair Upgrade", self.player, 3) or state.has("Auto-Repair Unit", self.player)))) 
-                                and state.has("Conventional Weapon Upgrade", self.player, 3)) or
-                                ((state.has_group("Pistol", self.player) or (state.has_group("Broken Pistol", self.player) and (state.has("Repair Upgrade", self.player, 1) or state.has("Auto-Repair Unit", self.player))))
-                                  and state.has_group("Conventional Weapon Upgrade", self.player)) or
-                                ((state.has_group("Assault Rifle", self.player) or (state.has_group("Broken Assault Rifle", self.player) and (state.has_group("Repair Upgrade", self.player, 4) or state.has("Auto-Repair Unit", self.player))))
-                                  and state.has_group("Conventional Weapon Upgrade", self.player)) or
-                                ((state.has_group("Laser Pistol", self.player) or (state.has_group("Broken Laser Pistol", self.player) and (state.has("Repair Upgrade", self.player, 1) or state.has("Auto-Repair Unit", self.player)))) 
-                                  and state.has("Energy Weapon Upgrade", self.player, 1)) or
-                                (state.has_group("Laser Rapier", self.player) and state.has("Energy Weapon Upgrade", self.player, 4) and state.has("Agility Upgrade", self. player, 2)) or
-                                ((state.has_group("EMP Rifle", self.player) or (state.has_group("Broken EMP Rifle", self.player) and (state.has("Repair Upgrade", self.player, 2) or state.has("Auto-Repair Unit", self.player)))) 
-                                and state.has("Energy Weapon Upgrade", self.player, 6)) or 
-                                ((state.has_group("Grenade Launcher", self.player) or (state.has_group("Broken Grenade Launcher", self.player) and (state.has("Repair Upgrade", self.player, 2) or state.has("Auto-Repair Unit", self.player)))) 
-                                and state.has("Heavy Weapon Upgrade", self.player, 1)) or
-                                ((state.has_group("Stasis Field Generator", self.player) or (state.has_group("Broken Stasis Field Generator", self.player) and (state.has("Repair Upgrade", self.player, 3) or state.has("Auto-Repair Unit", self.player)))) 
-                                and state.has("Heavy Weapon Upgrade", self.player, 3) and state.has("Strength Upgrade", self.player, 3)) or
-                                ((state.has_group("Fusion Cannon", self.player) or (state.has_group("Broken Fusion Cannon", self.player) and (state.has("Repair Upgrade", self.player, 4) or state.has("Auto-Repair Unit", self.player)))) 
-                                and state.has("Heavy Weapon Upgrade", self.player, 6) and state.has("Strength Upgrade", self.player, 4)) or
-                                (state.has_group("Crystal Shard", self.player) and state.has("Exotic Weapon Upgrade", self.player, 1) and state.has("Research Upgrade", self. player, 4) and state.has("Yttrium", self.player)) or
-                                ((state.has_group("Viral Proliferator", self.player) or (state.has_group("Broken Viral Proliferator", self.player) and (state.has("Repair Upgrade", self.player, 4) or state.has("Auto-Repair Unit", self.player)))) 
-                                and state.has("Exotic Weapon Upgrade", self.player, 4) and state.has("Technetium", self.player) and state.has("Tellurium", self.player)) or
-                                ((state.has_group("Annelid Launcher", self.player) or (state.has_group("Broken Annelid Launcher", self.player) and (state.has("Repair Upgrade", self.player, 5) or state.has("Auto-Repair Unit", self.player)))) 
-                                and state.has("Exotic Weapon Upgrade", self.player, 6) and state.has("Strength Upgrade", self.player, 3) and state.has("Agility Upgrade", self.player, 3), state.has("Research Upgrade", self.player, 6) and
-                                state.has("Molybdenum", self.player) and state.has("Selenium", self.player)))
+        p = self.player
+        apr = state.has("Auto-Repair Unit", p)
+        functional_weapon = (((state.has_group("Shotgun", p) or (state.has_group("Broken Shotgun", p) and (state.has("Repair Upgrade", p, 3) or apr))) and state.has("Conventional Weapon Upgrade", p, 3)) or
+                             
+                                ((state.has_group("Pistol", p) or (state.has_group("Broken Pistol", p) and (state.has("Repair Upgrade", p) or apr))) and state.has_group("Conventional Weapon Upgrade", p)) or
+
+                                ((state.has_group("Assault Rifle", p) or (state.has_group("Broken Assault Rifle", p) and (state.has_group("Repair Upgrade", p, 4) or apr))) and state.has_group("Conventional Weapon Upgrade", p)) or
+
+                                ((state.has_group("Laser Pistol", p) or (state.has_group("Broken Laser Pistol", p) and (state.has("Repair Upgrade", p) or apr))) and state.has("Energy Weapon Upgrade", p)) or
+
+                                (state.has_group("Laser Rapier", p) and state.has("Energy Weapon Upgrade", p, 4) and state.has("Agility Upgrade", self. player, 2)) or
+
+                                ((state.has_group("EMP Rifle", p) or (state.has_group("Broken EMP Rifle", p) and (state.has("Repair Upgrade", p, 2) or apr))) and state.has("Energy Weapon Upgrade", p, 6)) or
+
+                                ((state.has_group("Grenade Launcher", p) or (state.has_group("Broken Grenade Launcher", p) and (state.has("Repair Upgrade", p, 2) or apr))) and state.has("Heavy Weapon Upgrade", p)) or
+
+                                ((state.has_group("Stasis Field Generator", p) or (state.has_group("Broken Stasis Field Generator", p) and (state.has("Repair Upgrade", p, 3) or apr))) and state.has("Heavy Weapon Upgrade", p, 3) and state.has("Strength Upgrade", p, 3)) or
+
+                                ((state.has_group("Fusion Cannon", p) or (state.has_group("Broken Fusion Cannon", p) and (state.has("Repair Upgrade", p, 4) or apr))) and state.has("Heavy Weapon Upgrade", p, 6) and state.has("Strength Upgrade", p, 4)) or
+
+                                (state.has_group("Crystal Shard", p) and state.has("Exotic Weapon Upgrade", p) and state.has("Research Upgrade", self. player, 4) and state.has("Yttrium", p)) or
+
+                                ((state.has_group("Viral Proliferator", p) or (state.has_group("Broken Viral Proliferator", p) and (state.has("Repair Upgrade", p, 4) or apr))) and state.has("Exotic Weapon Upgrade", p, 4) 
+                                and state.has("Technetium", p) and state.has("Tellurium", p)) or
+
+                                ((state.has_group("Annelid Launcher", p) or (state.has_group("Broken Annelid Launcher", p) and (state.has("Repair Upgrade", p, 5) or apr))) and state.has("Exotic Weapon Upgrade", p, 6) 
+                                and state.has("Strength Upgrade", p, 3) and state.has("Agility Upgrade", p, 3), state.has("Research Upgrade", p, 6) and state.has("Molybdenum", p) and state.has("Selenium", p)))
         return functional_weapon
 
     def create_regions(self) -> None:
