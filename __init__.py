@@ -164,13 +164,13 @@ class SS2World(World):
         rick3_region.add_exits({"many"})
         many_region.add_exits({"shodan"})
 
-        #VictoryLoc = SS2location(self.player, "Victory", None)
-        #VictoryLoc.place_locked_item(SS2item("Victory", ItemClassification.progression, None, self.player))
-        #if self.options.many_is_victory:
-        #    many_region.locations.append(VictoryLoc)
-        #else:
-        #    shodan_region.locations.append(VictoryLoc)
-        #self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
+        VictoryLoc = SS2location(self.player, "Victory", None)
+        VictoryLoc.place_locked_item(SS2item("Victory", ItemClassification.progression, None, self.player))
+        if self.options.many_is_victory:
+            many_region.locations.append(VictoryLoc)
+        else:
+            shodan_region.locations.append(VictoryLoc)
+        self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
 
         visualize_regions(self.multiworld.get_region("Menu", self.player), "my_world.puml")
 
