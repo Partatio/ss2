@@ -7,7 +7,7 @@ from worlds.generic.Rules import add_rule
 from BaseClasses import Region, Location, Entrance, Item, ItemClassification
 from worlds.LauncherComponents import launch_subprocess, components, Component, Type
 
-#from Utils import visualize_regions
+from Utils import visualize_regions
 
 def launch_client():
     from .Client import launch
@@ -172,7 +172,7 @@ class SS2World(World):
         #    shodan_region.locations.append(VictoryLoc)
         #self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
 
-        #visualize_regions(self.multiworld.get_region("Menu", self.player), "my_world.puml")
+        visualize_regions(self.multiworld.get_region("Menu", self.player), "my_world.puml")
 
         
             
