@@ -67,33 +67,21 @@ class SS2World(World):
         curoptions = "" #there is prob a way better way than this
         #if self.options.include_stats_skills_psi:
         #    curoptions += "StatsSkillsPsi,"
-        #else:
-        #    curoptions += "noSSP,"
 
         if self.options.include_os_upgrades:
             curoptions += "OSUpgrades,"
-        else:
-            curoptions += "noOSU,"
 
         if self.options.include_chems:
             curoptions += "Chems,"
-        else:
-            curoptions += "noC,"
 
         if self.options.include_decorations:
             curoptions += "Decorations,"
-        else:
-            curoptions += "noD,"
 
         if self.options.include_starting_wrench:
             curoptions += "StartingWrench,"
-        else:
-            curoptions += "noSW,"
 
         if self.options.many_is_victory:
             curoptions += "ManyIsVictory"
-        else:
-            curoptions += "noMIV"
 
 
 
@@ -197,33 +185,21 @@ class SS2World(World):
         curoptions = ""
         #if self.options.include_stats_skills_psi:
         #    curoptions += "StatsSkillsPsi,"
-        #else:
-        #    curoptions += "noSSP,"
 
         if self.options.include_os_upgrades:
             curoptions += "OSUpgrades,"
-        else:
-            curoptions += "noOSU,"
 
         if self.options.include_chems:
             curoptions += "Chems,"
-        else:
-            curoptions += "noC,"
 
         if self.options.include_decorations:
             curoptions += "Decorations,"
-        else:
-            curoptions += "noD,"
 
         if self.options.include_starting_wrench:
             curoptions += "StartingWrench,"
-        else:
-            curoptions += "noSW,"
 
         if self.options.many_is_victory:
             curoptions += "ManyIsVictory"
-        else:
-            curoptions += "noMIV"
 
         for item, data in SS2items.items():
             if data["option"] not in curoptions:
