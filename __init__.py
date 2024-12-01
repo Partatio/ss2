@@ -4,7 +4,7 @@ from .items import SS2items, SS2item
 from .locations import SS2locations, SS2location
 from worlds.AutoWorld import World
 from worlds.generic.Rules import add_rule
-from BaseClasses import Region, Location, Entrance, Item, ItemClassification
+from BaseClasses import Region, Location, Entrance, Item, ItemClassification, CollectionState
 from worlds.LauncherComponents import launch_subprocess, components, Component, Type
 
 from Utils import visualize_regions
@@ -60,7 +60,7 @@ class SS2World(World):
         locdata = SS2locations[locname]
         return SS2location(self.player, locname, locdata["id"], locregion)
 
-    def has_functional_weapon(self, state):
+    def has_functional_weapon(self, state: CollectionState):
         functional_weapon = (((state.has_group("Shotgun", self.player) or (state.has_group("Broken Shotgun", self.player) and (state.has("Repair Upgrade", self.player, 3) or state.has("Auto-Repair Unit", self.player)))) 
                                 and state.has("Conventional Weapon Upgrade", self.player, 3)) or
                                 ((state.has_group("Pistol", self.player) or (state.has_group("Broken Pistol", self.player) and (state.has("Repair Upgrade", self.player, 1) or state.has("Auto-Repair Unit", self.player))))
@@ -180,7 +180,7 @@ class SS2World(World):
                                                                and state.has_group("Research", self.player) and state.has("Hydroponics Sector A access card", self.player) and state.has("Hydroponics Sector D access card", self.player)})
         ops2_region.add_exits({"rec1", "ops1", "ops3", "ops4"})
         rec1_region.add_exits({"command1", "rec2", "rec3"}, {"command1": lambda state: state.has("Quantum Simulation chip", self.player) and state.has("Linear Simulation chip", self.player) and state.has("Interpolated Simulation chip", self.player)
-                                                             and state.has("Deck 5 Crew access card", self.player and state.has("Dead Power Cell", self.player, 2)) and state.has("Athletics access card", self.player)})
+                                                             and state.has("Deck 5 Crew access card", self.player) and state.has("Dead Power Cell", self.player, 2) and state.has("Athletics access card", self.player)})
         command1_region.add_exits({"command2", "rick1"}, {"rick1": lambda state: state.has("Ops Override access card", self.player)})
         rick1_region.add_exits({"rick2"}, {"rick2": lambda state: state.has("Rickenbacker access Card", self.player)})
         rick2_region.add_exits({"rick3"})
@@ -233,6 +233,6 @@ class SS2World(World):
             while amount > 0:
                 SS2itempool.append(newitem)
                 amount -= 1
-
+    
         self.multiworld.itempool += SS2itempool
         
